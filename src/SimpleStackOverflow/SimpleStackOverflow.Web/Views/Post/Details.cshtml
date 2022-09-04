@@ -1,0 +1,29 @@
+﻿@model PostUpdateModel
+@{
+    ViewData["Title"] = "Details";
+}
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">@Model.Posts.Title</h3>
+        <div class="card-tools">
+            <span class="badge badge-primary">Asked on @Model.Posts.CreateTime.ToString("MMMM dd, yyyy")</span>
+        </div>
+    </div>
+    <div class="card-body">
+        @Html.Raw(@Model.Posts.Description)
+    </div>
+    <div class="card-footer">
+        @{
+            if(Model.Posts.Comments!.Count > 0){
+                foreach(var comment in Model.Posts.Comments){
+                    <div class="callout callout-danger">
+                        <h5>@comment.Author.FirstName @comment.Author.LastName</h5>
+                        @Html.Raw(comment.CommentText)
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+

@@ -1,0 +1,24 @@
+﻿@model UserPostListModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    <br />
+    if (Model.Posts!.Count > 0)
+    {
+        foreach (var item in Model.Posts)
+        {
+            <div class="card">   
+                <div class="card-body">
+                    <a asp-action="Details" asp-route-id="@item.Id"><h4>@item.Title</h4></a>
+                    <small class="label-rating text-muted">
+                        Asked on @item.CreateTime.ToString("MMMM dd, yyyy") |
+                        @item.Votes!.Count Votes
+                    </small>
+                </div>
+            </div>
+        }
+    }
+}
+<div class="text-center" id="pagingDiv">@Html.Raw(Model.Pagination)</div>

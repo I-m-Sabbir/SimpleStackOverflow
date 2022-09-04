@@ -17,6 +17,7 @@
                     <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
+                <input asp-for="ReturnUrl" hidden/>
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mt-3">Log in</button>
                     <a class="reset_pass" href="#">Lost your password?</a>

@@ -107,9 +107,9 @@ namespace SimpleStackOverflow.Web.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Email);
                     if(user != null)
                     {
-                        if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         {
-                            return Redirect(returnUrl);
+                            return Redirect(model.ReturnUrl);
                         }
 
                         return RedirectToAction("Index", "Home");
