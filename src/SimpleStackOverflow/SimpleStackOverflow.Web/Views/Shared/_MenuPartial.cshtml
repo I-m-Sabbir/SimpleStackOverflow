@@ -1,4 +1,9 @@
-﻿<nav class="mt-2">
+﻿@using Microsoft.AspNetCore.Identity
+@using SimpleStackOverflow.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
@@ -10,29 +15,32 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>
-                    Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/Admin/Student/Index" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Students
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/Admin/Enroll/NewEnrollment" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    New Enrollment
-                </p>
-            </a>
-        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>
+                        Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Student/Index" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Students
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Enroll/NewEnrollment" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        New Enrollment
+                    </p>
+                </a>
+            </li>
+        }
     </ul>
 </nav>

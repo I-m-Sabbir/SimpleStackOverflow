@@ -10,6 +10,7 @@ using SimpleStackOverflow.Infrastructure.Entities.Membership;
 using SimpleStackOverflow.Infrastructure.Profiles;
 using SimpleStackOverflow.Membership;
 using SimpleStackOverflow.Membership.Services;
+using SimpleStackOverflow.Web;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,7 @@ var webHostEnvironment = builder.Environment;
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    //containerBuilder.RegisterModule(new WebModule());
+    containerBuilder.RegisterModule(new WebModule());
     containerBuilder.RegisterModule(new MembershipModule(connectionString, migrationAssemblyName!));
     containerBuilder.RegisterModule(new InfrastructureModule(connectionString, migrationAssemblyName!, webHostEnvironment));
     //containerBuilder.RegisterModule(new EmailMessagingModule(connectionString, assemblyName));
