@@ -26,7 +26,7 @@ namespace SimpleStackOverflow.Web.Controllers
             await model.GetUserAsync(User!.Identity!.Name!);
             var data = await model.PostListAsync();
             model.Posts = data.Item3;
-            model.Pagination = PagingModel.SetPaging(model.PageNumber, 2, data.totalDisplay,
+            model.Pagination = PagingModel.SetPaging(model.PageNumber, 10, data.totalDisplay,
                 "activeLink", Url.Action("Index", "Post", model), "disableLink");
             return View(model);
         }
@@ -75,8 +75,42 @@ namespace SimpleStackOverflow.Web.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var model = _scope.Resolve<PostUpdateModel>();
+            await model.GetPostWithIncludeAsync(id);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            var model = _scope.Resolve<PostUpdateModel>();
             await model.GetPostAsync(id);
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(PostUpdateModel model)
+        {
+            model.Resolve(_scope);
+            try
+            {
+                await model.UpdateAsync();
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Update Operation Failed.",
+                    Type = ResponseTypes.Success
+                });
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Update Operation Failed.",
+                    Type = ResponseTypes.Danger
+                });
+                return View(model);
+            }
         }
     }
 }

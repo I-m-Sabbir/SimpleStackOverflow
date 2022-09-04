@@ -10,5 +10,7 @@ namespace SimpleStackOverflow.Infrastructure.Services
         Task CreatePostAsync(Post post);
         //Task DeletePostAsync(int id);
         Task<Post> GetPostAsync(int id);
+        Task<Post> GetPostWithIncludeAsync(int id);
+        Task UpdateAsync(Post post);
     }
 }

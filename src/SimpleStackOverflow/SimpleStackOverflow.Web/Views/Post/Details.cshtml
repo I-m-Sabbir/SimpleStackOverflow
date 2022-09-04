@@ -15,10 +15,22 @@
     </div>
     <div class="card-footer">
         @{
-            if(Model.Posts.Comments!.Count > 0){
-                foreach(var comment in Model.Posts.Comments){
+            if (Model.Posts.Comments!.Count > 0)
+            {
+                foreach (var comment in Model.Posts.Comments)
+                {
+
                     <div class="callout callout-danger">
-                        <h5>@comment.Author.FirstName @comment.Author.LastName</h5>
+                        <h5>
+                            @if (comment.IsVerified)
+                            {
+                                <i class="fa fa-check text-success"></i>
+                            }
+                            @comment.Author.FirstName @comment.Author.LastName
+                        </h5>
+                        <small class="label-rating text-muted">
+                            Votes: @comment.Votes!.Count
+                        </small>
                         @Html.Raw(comment.CommentText)
                     </div>
                 }

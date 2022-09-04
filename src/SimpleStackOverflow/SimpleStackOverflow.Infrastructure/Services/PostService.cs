@@ -44,13 +44,41 @@ namespace SimpleStackOverflow.Infrastructure.Services
             }
         }
 
+        public async Task<Post> GetPostWithIncludeAsync(int id)
+        {
+            try
+            {
+                var entity = (await _unitofWork.Posts.GetAsync(x => x.Id == id,
+                    "Author,Comments,Comments.Author,Comments.Votes,Votes"))
+                    .FirstOrDefault();
+                return _mapper.Map<Post>(entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task<Post> GetPostAsync(int id)
         {
             try
             {
-                var entity = (await _unitofWork.Posts.GetAsync(x => x.Id == id, "Author,Comments,Author,Votes,Author"))
-                    .FirstOrDefault();
+                var entity = await _unitofWork.Posts.GetByIdAsync(id);
                 return _mapper.Map<Post>(entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task UpdateAsync(Post post)
+        {
+            try
+            {
+                var entity = await _unitofWork.Posts.GetByIdAsync(post.Id);
+                _mapper.Map(post, entity);
+                await _unitofWork.SaveAsync();
             }
             catch(Exception ex)
             {
