@@ -40,7 +40,7 @@ namespace SimpleStackOverflow.Web.Models.Vote
             AuthorId = user.Id;
         }
 
-        public async Task VoteCommentAsync()
+        public async Task VoteAsync()
         {
             var model = Map();
             await _voteService.VoteAsync(model);
@@ -51,7 +51,12 @@ namespace SimpleStackOverflow.Web.Models.Vote
             await _voteService.DeleteVoteAsync(commentId, AuthorId);
         }
 
-        public VoteBO Map()
+        public async Task RemovePostVoteAsync(int postId)
+        {
+            await _voteService.DeletePostVoteAsync(postId, AuthorId);
+        }
+
+        private VoteBO Map()
         {
             return new VoteBO
             {

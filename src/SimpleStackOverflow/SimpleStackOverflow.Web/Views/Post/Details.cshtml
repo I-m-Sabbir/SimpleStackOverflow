@@ -8,12 +8,43 @@
         <h3 class="card-title">@Model.Posts.Title</h3>
         <div class="card-tools">
             <span class="badge badge-primary">Asked on @Model.Posts.CreateTime.ToString("MMMM dd, yyyy")</span>
+            <span>    
+                <a asp-action="Update" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-warning rounded">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+            </span>
+            <span>
+                <a asp-action="Delete" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-danger rounded">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </span>
         </div>
     </div>
     <div class="card-body">
         @Html.Raw(@Model.Posts.Description)
+        <div class="d-flex">
+            <b class="mr-3">
+                Votes : @Model.Posts.Votes!.Count
+            </b>
+        
+            @if(!Model.Posts!.Votes!.Select(x => x.Author.UserName).Contains(User!.Identity!.Name)){
+                <span>
+                    <a asp-action="VotePost" asp-controller="Vote" asp-route-id="@Model.Posts.Id" class="btn btn-warning btn-sm rounded float-left">
+                        <i class="fa fa-thumbs-up" aria-hidden="true">Vote</i>
+                    </a>
+                </span>
+            }
+            else
+            {
+                <span>
+                    <a asp-action="CancelVotePost" asp-controller="Vote" asp-route-id="@Model.Posts.Id" class="btn btn-warning btn-sm rounded float-left">
+                        <i class="fa fa-thumbs-down" aria-hidden="true"> Cancel Vote</i>
+                    </a>
+                </span>
+            }
+        </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer ml-5">
         @{
             if (Model.Posts.Comments!.Count > 0)
             {
@@ -28,10 +59,64 @@
                                 <i class="fa fa-check text-success"></i>
                             }
                             @comment.Author.FirstName @comment.Author.LastName
+                            @if (User!.Identity!.Name == Model.Posts.Author.UserName && !comment.IsVerified)
+                            {
+                                <form asp-action="Verify" asp-controller="Comment" method="post" asp-antiforgery="true">
+                                    <input type="text" name="commentId" value="@comment.Id" readonly hidden />
+                                    <input type="text" name="postId" value="@Model.Posts.Id" readonly hidden />
+                                    <input type="submit" class="btn btn-success btn-sm rounded float-right" value="Accept Answer" />
+                                </form>
+                            }
+                            else if (User!.Identity!.Name == Model.Posts.Author.UserName && comment.IsVerified)
+                            {
+                                <form asp-action="Cencel" asp-controller="Comment" method="post" asp-antiforgery="true">
+                                    <input type="text" name="commentId" value="@comment.Id" readonly hidden />
+                                    <input type="text" name="postId" value="@Model.Posts.Id" readonly hidden />
+                                    <input type="submit" class="btn btn-danger btn-sm rounded float-right" value="Cencel" />
+                                </form>
+                            }
+                            else
+                            {
+
+                            }
+                            @if (!comment.Votes.Select(s => s.Author.UserName).Contains(User.Identity.Name))
+                            {
+                                <form asp-action="CommentVote" asp-controller="Vote" method="post" asp-antiforgery="true">
+                                    <input type="text" name="commentId" value="@comment.Id" readonly hidden />
+                                    <input type="text" name="postId" value="@Model.Posts.Id" readonly hidden />
+                                    <button type="submit" class="btn btn-warning btn-sm rounded float-right"><i class="fa fa-thumbs-up" aria-hidden="true"> Vote</i></button>
+                                </form>
+                            }
+                            else if (comment.Votes.Select(s => s.Author.UserName).Contains(User.Identity.Name))
+                            {
+                                <form asp-action="CencelCommentVote" asp-controller="Vote" method="post" asp-antiforgery="true">
+                                    <input type="text" name="commentId" value="@comment.Id" readonly hidden />
+                                    <input type="text" name="postId" value="@Model.Posts.Id" readonly hidden />
+                                    <button type="submit" class="btn btn-warning btn-sm rounded float-right"><i class="fa fa-thumbs-down" aria-hidden="true"> Cancel Vote</i></button>
+                                </form>
+                            }
+                            else
+                            {
+
+                            }
                         </h5>
                         <small class="label-rating text-muted">
                             Votes: @comment.Votes!.Count
                         </small>
+                        <br />
+                        @if (comment.Author.UserName == User!.Identity!.Name)
+                        {
+                            <span>
+                                <a asp-action="Update" asp-controller="Comment" asp-route-id="@comment.Id" asp-route-postId="@Model.Posts.Id" class="btn btn-sm btn-warning rounded float-right">
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a asp-action="Delete" asp-controller="Comment" asp-route-id="@comment.Id" asp-route-postId="@Model.Posts.Id" class="btn btn-sm btn-danger rounded float-right">
+                                    <i class="fas fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        }
                         @Html.Raw(comment.CommentText)
                     </div>
                 }

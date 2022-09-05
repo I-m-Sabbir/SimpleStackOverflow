@@ -8,5 +8,7 @@ namespace SimpleStackOverflow.Infrastructure.Services
         Task CreateAsync(Comment comment);
         Task<Comment> GetAsync(int id);
         Task VerifyCommentAsync(Comment comment);
+        Task DeleteAsync(int id);
+        Task UpdateAsync(Comment comment);
     }
 }

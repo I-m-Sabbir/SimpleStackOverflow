@@ -117,6 +117,66 @@ namespace SimpleStackOverflow.Web.Controllers
             return RedirectToAction("Details", "Home", new { id = postId });
         }
 
+        public async Task<IActionResult> Delete(int id, int postId)
+        {
+            var model = _scope.Resolve<CreateCommentModel>();
+            try
+            {
+                await model.CommentDeleteAsync(id);
 
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Commented Deleted.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Faild to Delete Comment.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+            return RedirectToAction("Details", "Home", new { id = postId });
+        }
+
+        public async Task<IActionResult> Update(int id, int postId)
+        {
+            var model = _scope.Resolve<CommentUpdateModel>();
+            await model.GetCommentAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(CommentUpdateModel model)
+        {
+            model.Resolve(_scope);
+            try
+            {
+                await model.UpdateCommentAsync();
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Successfully Commented.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Faild to Comment.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+
+            return RedirectToAction("Details", "Home", new { id = model.PostId });
+        }
     }
 }

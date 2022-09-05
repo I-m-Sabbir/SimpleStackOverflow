@@ -66,6 +66,11 @@ namespace SimpleStackOverflow.Web.Models.Comment
             await _commentService.VerifyCommentAsync(post);
         }
 
+        public async Task CommentDeleteAsync(int id)
+        {
+            await _commentService.DeleteAsync(id);
+        }
+
         private CommentBO Map()
         {
             return new CommentBO

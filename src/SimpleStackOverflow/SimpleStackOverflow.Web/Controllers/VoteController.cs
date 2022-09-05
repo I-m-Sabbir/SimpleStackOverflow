@@ -24,6 +24,12 @@ namespace SimpleStackOverflow.Web.Controllers
             return View();
         }
 
+        public IActionResult CommentVote()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CommentVote(int commentId, int postId)
         {
@@ -33,7 +39,7 @@ namespace SimpleStackOverflow.Web.Controllers
 
             try
             {
-                await model.VoteCommentAsync();
+                await model.VoteAsync();
 
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
@@ -84,5 +90,67 @@ namespace SimpleStackOverflow.Web.Controllers
             return RedirectToAction("Details", "Home", new { id = postId });
         }
 
+        public IActionResult PostVote()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> VotePost(int id)
+        {
+            var model = _scope.Resolve<VoteCreateModel>();
+            model.PostId = id;
+            await model.GetAuthorAsync(User!.Identity!.Name!);
+
+            try
+            {
+                await model.VoteAsync();
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Vote Given Successfully.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Vote Could not given.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+            return RedirectToAction("Details", "Home", new { id = id });
+        }
+
+        public async Task<IActionResult> CancelVotePost(int id)
+        {
+            var model = _scope.Resolve<VoteCreateModel>();
+            model.PostId = id;
+            await model.GetAuthorAsync(User!.Identity!.Name!);
+
+            try
+            {
+                await model.RemovePostVoteAsync(id);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Vote Removed.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Vote Could not be Removed.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+            return RedirectToAction("Details", "Home", new { id = id });
+        }
     }
 }

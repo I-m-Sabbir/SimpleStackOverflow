@@ -53,6 +53,18 @@ namespace SimpleStackOverflow.Infrastructure.DbContexts
                 .HasForeignKey(c => c.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Comment>()
+                .HasMany(c => c.Votes)
+                .WithOne()
+                .HasForeignKey(c => c.CommentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Post>()
+                .HasMany(p => p.Votes)
+                .WithOne()
+                .HasForeignKey(v => v.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<Post>()
                 .HasOne(p => p.Author)
                 .WithMany(u => u.Posts)

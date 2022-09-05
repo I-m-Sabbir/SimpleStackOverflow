@@ -19,6 +19,7 @@ namespace SimpleStackOverflow.Web
             builder.RegisterType<PostListModel>().AsSelf();
 
             builder.RegisterType<CreateCommentModel>().AsSelf();
+            builder.RegisterType <CommentUpdateModel>().AsSelf();
 
             builder.RegisterType<VoteCreateModel>().AsSelf();
 

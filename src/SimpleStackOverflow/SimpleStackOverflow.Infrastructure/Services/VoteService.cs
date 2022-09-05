@@ -44,6 +44,19 @@ namespace SimpleStackOverflow.Infrastructure.Services
             }
         }
 
+        public async Task DeletePostVoteAsync(int postId, Guid authorId)
+        {
+            try
+            {
+                await _unitofWork.Votes.RemoveAsync(x => x.PostId == postId && x.AuthorId == authorId);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task UpdateVoteAsync(Vote vote)
         {
             try

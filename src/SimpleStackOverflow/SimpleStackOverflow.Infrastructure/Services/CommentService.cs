@@ -57,5 +57,31 @@ namespace SimpleStackOverflow.Infrastructure.Services
             }
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                await _unitofWork.Comments.RemoveAsync(id);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task UpdateAsync(Comment comment)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(comment.Id);
+                _mapper.Map(comment, entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }

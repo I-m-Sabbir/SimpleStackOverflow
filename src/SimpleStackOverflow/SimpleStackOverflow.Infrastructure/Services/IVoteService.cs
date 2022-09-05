@@ -1,5 +1,4 @@
-﻿
-using SimpleStackOverflow.Infrastructure.BusinessObjects;
+﻿using SimpleStackOverflow.Infrastructure.BusinessObjects;
 
 namespace SimpleStackOverflow.Infrastructure.Services
 {
@@ -8,5 +7,6 @@ namespace SimpleStackOverflow.Infrastructure.Services
         Task VoteAsync(Vote vote);
         Task UpdateVoteAsync(Vote vote);
         Task DeleteVoteAsync(int commentId, Guid authorId);
+        Task DeletePostVoteAsync(int postId, Guid authorId);
     }
 }
