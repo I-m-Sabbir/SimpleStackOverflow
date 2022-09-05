@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using SimpleStackOverflow.Infrastructure.BusinessObjects;
 using SimpleStackOverflow.Infrastructure.UnitofWorks;
+using CommentEO = SimpleStackOverflow.Infrastructure.Entities.Comment;
 
 namespace SimpleStackOverflow.Infrastructure.Services
 {
@@ -14,6 +16,72 @@ namespace SimpleStackOverflow.Infrastructure.Services
             _mapper = mapper;
         }
 
+        public async Task CreateAsync(Comment comment)
+        {
+            try
+            {
+                var entity = _mapper.Map<CommentEO>(comment);
+                await _unitofWork.Comments.AddAsync(entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
 
+        public async Task<Comment> GetAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(id);
+                return _mapper.Map<Comment>(entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task VerifyCommentAsync(Comment comment)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(comment.Id);
+                _mapper.Map(comment, entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                await _unitofWork.Comments.RemoveAsync(id);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task UpdateAsync(Comment comment)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(comment.Id);
+                _mapper.Map(comment, entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }

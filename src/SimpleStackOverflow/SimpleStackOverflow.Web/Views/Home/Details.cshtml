@@ -1,23 +1,37 @@
 ﻿@model PostUpdateModel
+@using Microsoft.AspNetCore.Identity
+@using SimpleStackOverflow.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = "Details";
 }
-<br />
+@section Styles {
+    <!-- include summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+}
+    <br />
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">@Model.Posts.Title</h3>
         <div class="card-tools">
-            <span class="badge badge-primary">Asked on @Model.Posts.CreateTime.ToString("MMMM dd, yyyy")</span>
-            <span>    
-                <a asp-action="Update" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-warning rounded">
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                </a>
-            </span>
-            <span>
-                <a asp-action="Delete" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-danger rounded">
-                    <i class="fas fa-trash" aria-hidden="true"></i>
-                </a>
-            </span>
+             <span class="badge badge-secondary">@Model.Posts.Author.FirstName @Model.Posts.Author.LastName</span>
+             <span class="badge badge-primary">Asked on @Model.Posts.CreateTime.ToString("MMMM dd, yyyy")</span>
+            @if (Model.Posts.Author.UserName == User!.Identity!.Name)
+            {
+                <span>
+                    <a asp-action="Update" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-warning rounded">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    </a>
+                </span>
+                <span>
+                    <a asp-action="Delete" asp-controller="Post" asp-route-id="@Model.Posts.Id" class="btn btn-danger rounded">
+                        <i class="fas fa-trash" aria-hidden="true"></i>
+                    </a>
+                </span>
+            }
         </div>
     </div>
     <div class="card-body">
@@ -26,16 +40,16 @@
             <b class="mr-3">
                 Votes : @Model.Posts.Votes!.Count
             </b>
-        
-            @if(!Model.Posts!.Votes!.Select(x => x.Author.UserName).Contains(User!.Identity!.Name)){
+
+            @if (!Model.Posts!.Votes!.Select(x => x.Author.UserName).Contains(User!.Identity!.Name))
+            {
                 <span>
                     <a asp-action="VotePost" asp-controller="Vote" asp-route-id="@Model.Posts.Id" class="btn btn-warning btn-sm rounded float-left">
-                        <i class="fa fa-thumbs-up" aria-hidden="true">Vote</i>
+                        <i class="fa fa-thumbs-up" aria-hidden="true"> Vote</i>
                     </a>
                 </span>
             }
-            else
-            {
+            else{
                 <span>
                     <a asp-action="CancelVotePost" asp-controller="Vote" asp-route-id="@Model.Posts.Id" class="btn btn-warning btn-sm rounded float-left">
                         <i class="fa fa-thumbs-down" aria-hidden="true"> Cancel Vote</i>
@@ -59,6 +73,7 @@
                                 <i class="fa fa-check text-success"></i>
                             }
                             @comment.Author.FirstName @comment.Author.LastName
+                            
                             @if (User!.Identity!.Name == Model.Posts.Author.UserName && !comment.IsVerified)
                             {
                                 <form asp-action="Verify" asp-controller="Comment" method="post" asp-antiforgery="true">
@@ -95,8 +110,7 @@
                                     <button type="submit" class="btn btn-warning btn-sm rounded float-right"><i class="fa fa-thumbs-down" aria-hidden="true"> Cancel Vote</i></button>
                                 </form>
                             }
-                            else
-                            {
+                            else{
 
                             }
                         </h5>
@@ -122,6 +136,33 @@
                 }
             }
         }
+        <br />
+        <br />
+        <form asp-action="Create" asp-controller="Comment" method="post" asp-antiforgery="true">
+            <input asp-for="Posts.Id" name="postId" hidden />
+            <textarea id="summernote" name="commentText">
+
+            </textarea>
+            <div class="text-right">
+                <input type="submit" value="Comment" class="btn btn-success rounded" />
+            </div>
+        </form>
     </div>
 </div>
 
+@section Scripts
+    {
+    <!-- include summernote js -->
+    <script src="~/admin/custom/bootstraptagsinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#summernote").summernote({
+                placeholder: "Write your content here",
+                tabsize: 2,
+                height: 200
+            });
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+}

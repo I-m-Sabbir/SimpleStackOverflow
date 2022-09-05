@@ -1,0 +1,53 @@
+﻿@model CommentUpdateModel
+@{
+    ViewData["Title"] = "Update";
+}
+@section Styles {
+    <!-- include summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+}
+<div class="card">
+    <form asp-action="Update" method="post" asp-antiforgery="true">
+        <div class="card-header text-center">
+            <h4>Update Comment</h4>
+        </div>
+        <div class="card-body">
+            <input asp-for="Id" readonly hidden/>
+            <input asp-for="PostId" readonly hidden />
+            <input asp-for="AuthorId" readonly hidden />
+            <input asp-for="IsVerified" readonly hidden />
+            <input asp-for="CreateTime" readonly hidden />
+            <div class="form-group row">
+                    <label class="col-2 col-form-label">Answer</label>
+                    <div class="col-10">
+                        <textarea id="summernote" asp-for="CommentText">
+
+                        </textarea>
+                        <span class="text-danger" asp-validation-for="CommentText"></span>
+                    </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <input type="submit" class="btn btn-success rounded" value="Update"/>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts
+    {
+    <!-- include summernote js -->
+    <script src="~/admin/custom/bootstraptagsinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#summernote").summernote({
+                placeholder: "Write your content here",
+                tabsize: 2,
+                height: 200
+            });
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+}

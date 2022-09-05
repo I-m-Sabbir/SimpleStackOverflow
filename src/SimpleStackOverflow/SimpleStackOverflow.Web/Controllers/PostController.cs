@@ -95,7 +95,7 @@ namespace SimpleStackOverflow.Web.Controllers
                 await model.UpdateAsync();
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
-                    Message = "Update Operation Failed.",
+                    Message = "Update Operation Succeed.",
                     Type = ResponseTypes.Success
                 });
                 return RedirectToAction(nameof(Index));

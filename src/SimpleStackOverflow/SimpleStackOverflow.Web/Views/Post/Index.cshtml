@@ -11,11 +11,23 @@
         {
             <div class="card">   
                 <div class="card-body">
-                    <a asp-action="Details" asp-route-id="@item.Id"><h4>@item.Title</h4></a>
-                    <small class="label-rating text-muted">
-                        Asked on @item.CreateTime.ToString("MMMM dd, yyyy") |
-                        @item.Votes!.Count Votes
-                    </small>
+                    <div class="row">
+                        <div class="col-10">
+                            <a asp-action="Details" asp-route-id="@item.Id"><h4>@item.Title</h4></a>
+                            <small class="label-rating text-muted">
+                                Asked on @item.CreateTime.ToString("MMMM dd, yyyy") |
+                                @item.Votes!.Count Votes
+                            </small>
+                        </div>
+                        <div class="col-2 text-right">
+                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning rounded">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger rounded">
+                                <i class="fas fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
