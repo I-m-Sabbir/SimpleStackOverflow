@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SimpleStackOverflow.Infrastructure.Entities;
 using SimpleStackOverflow.Infrastructure.Entities.Membership;
 
 namespace SimpleStackOverflow.Infrastructure.DbContexts
@@ -35,9 +36,34 @@ namespace SimpleStackOverflow.Infrastructure.DbContexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+            builder.Entity<Post>()
+                .HasMany(p => p.Comments)
+                .WithOne(c => c.Post)
+                .HasForeignKey(p => p.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.Comments)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.Author)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Post>()
+                .HasOne(p => p.Author)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.AuthorId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);
         }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Vote> Votes { get; set; }
     }
 }

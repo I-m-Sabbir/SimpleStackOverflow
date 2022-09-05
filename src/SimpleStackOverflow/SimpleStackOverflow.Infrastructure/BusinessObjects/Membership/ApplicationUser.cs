@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace SimpleStackOverflow.Infrastructure.Entities.Membership
+﻿
+namespace SimpleStackOverflow.Infrastructure.BusinessObjects.Membership
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

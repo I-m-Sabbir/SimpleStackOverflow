@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using SimpleStackOverflow.Infrastructure.DbContexts;
+using SimpleStackOverflow.Infrastructure.Repositories;
+using SimpleStackOverflow.Infrastructure.Services;
 using SimpleStackOverflow.Infrastructure.UnitofWorks;
 
 namespace SimpleStackOverflow.Infrastructure
@@ -32,6 +34,21 @@ namespace SimpleStackOverflow.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<InfrastructureUnitOfWork>().As<IInfrastructureUnitOfWork>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CommentRepository>().As<ICommentRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CommentService>().As<ICommentService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PostRepository>().As<IPostRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<PostService>().As<IPostService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<VoteRepository>().As<IVoteRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<VoteService>().As<IVoteService>()
                 .InstancePerLifetimeScope();
 
             base.Load(builder);
