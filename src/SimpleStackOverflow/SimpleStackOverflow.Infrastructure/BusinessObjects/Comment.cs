@@ -12,5 +12,6 @@ namespace SimpleStackOverflow.Infrastructure.BusinessObjects
         public Post Post { get; set; } = null!;
         public int PostId { get; set; }
         public bool IsVerified { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
     }
 }
