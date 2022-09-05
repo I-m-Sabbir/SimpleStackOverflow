@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using SimpleStackOverflow.Infrastructure.BusinessObjects;
 using SimpleStackOverflow.Infrastructure.UnitofWorks;
+using CommentEO = SimpleStackOverflow.Infrastructure.Entities.Comment;
 
 namespace SimpleStackOverflow.Infrastructure.Services
 {
@@ -12,6 +14,20 @@ namespace SimpleStackOverflow.Infrastructure.Services
         {
             _unitofWork = unitofWork;
             _mapper = mapper;
+        }
+
+        public async Task CreateAsync(Comment comment)
+        {
+            try
+            {
+                var entity = _mapper.Map<CommentEO>(comment);
+                await _unitofWork.Comments.AddAsync(entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
 

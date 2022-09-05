@@ -30,6 +30,20 @@ namespace SimpleStackOverflow.Infrastructure.Services
             return (list.total, list.totalDisplay, posts);
         }
 
+        public async Task<(int total, int totalDisplay, List<Post>)> GetAllPostsAsync(int pageIndex,
+            int pageSize)
+        {
+            var list = await _unitofWork.Posts.GetDynamicAsync(x => x.Title != null, "CreateTime desc",
+                "Author,Comments,Comments.Author,Comments.Votes,Votes", pageIndex, pageSize, true);
+
+            List<Post> posts = new List<Post>();
+            foreach(var post in list.data)
+            {
+                posts.Add(_mapper.Map<Post>(post));
+            }
+            return (list.total, list.totalDisplay, posts);
+        }
+
         public async Task CreatePostAsync(Post post)
         {
             try
