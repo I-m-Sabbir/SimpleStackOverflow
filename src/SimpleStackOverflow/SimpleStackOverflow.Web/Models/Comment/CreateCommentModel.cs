@@ -23,6 +23,7 @@ namespace SimpleStackOverflow.Web.Models.Comment
 
         }
 
+        public int Id { get; set; }
         public string CommentText { get; set; }
         public int PostId { get; set; }
         public Guid AuthorId { get; set; }
@@ -44,6 +45,25 @@ namespace SimpleStackOverflow.Web.Models.Comment
         {
             var model = Map();
             await _commentService.CreateAsync(model);
+        }
+
+        public async Task<CommentBO> GetCommentAsync(int id)
+        {
+            return await _commentService.GetAsync(id);
+        }
+
+        public async Task VerifyCommentAsync(int id)
+        {
+            var post = await GetCommentAsync(id);
+            post.IsVerified = true;
+            await _commentService.VerifyCommentAsync(post);
+        }
+
+        public async Task CencelVerificationAsync(int id)
+        {
+            var post = await GetCommentAsync(id);
+            post.IsVerified = false;
+            await _commentService.VerifyCommentAsync(post);
         }
 
         private CommentBO Map()

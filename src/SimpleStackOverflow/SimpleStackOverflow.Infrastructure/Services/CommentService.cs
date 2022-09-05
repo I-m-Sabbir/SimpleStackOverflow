@@ -30,6 +30,32 @@ namespace SimpleStackOverflow.Infrastructure.Services
             }
         }
 
+        public async Task<Comment> GetAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(id);
+                return _mapper.Map<Comment>(entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task VerifyCommentAsync(Comment comment)
+        {
+            try
+            {
+                var entity = await _unitofWork.Comments.GetByIdAsync(comment.Id);
+                _mapper.Map(comment, entity);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
 
     }
 }

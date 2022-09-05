@@ -5,6 +5,7 @@ namespace SimpleStackOverflow.Infrastructure.BusinessObjects.Membership
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public string? UserName { get; set; }
         public IList<Post>? Posts { get; set; }
         public IList<Comment>? Comments { get; set; }
     }

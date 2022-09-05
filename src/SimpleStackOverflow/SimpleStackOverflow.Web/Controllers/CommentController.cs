@@ -60,5 +60,63 @@ namespace SimpleStackOverflow.Web.Controllers
 
             return RedirectToAction("Details", "Home", new { id = postId });
         }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Verify(int commentId, int postId)
+        {
+            var model = _scope.Resolve<CreateCommentModel>();
+            try
+            {
+                await model.VerifyCommentAsync(commentId);
+                
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Comment Verified.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Faild to Comment.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+
+            return RedirectToAction("Details", "Home", new { id = postId });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cencel(int commentId, int postId)
+        {
+            var model = _scope.Resolve<CreateCommentModel>();
+            try
+            {
+                await model.CencelVerificationAsync(commentId);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Comment Verified.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Faild to Comment.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+
+            return RedirectToAction("Details", "Home", new { id = postId });
+        }
+
+
     }
 }
