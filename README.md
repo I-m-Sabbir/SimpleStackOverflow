@@ -1,5 +1,5 @@
 # SimpleStackOverflow
-##About The Poject
+## About The Poject
 =============
 This is a simple project build following StackOverflow. There are some features in this project, implemented least like StackOverflow.
 Users need to register before using any feature like posting questions or answering questions or voting questions or answers.
@@ -15,7 +15,7 @@ Below are the features of the project:
 	9. Answers can be modified or deleted by the owner
 	10. Guest users can see the questions and answers but can't do any actions
 
-##Build Using
+## Build Using
 ==========
 	> Asp.NET Core 6
 	> MSSQL Server 2019
@@ -23,7 +23,7 @@ Below are the features of the project:
 	> BootStap
 	> Visual Studio 2022
 
-##Installation
+## Installation
 ==========
 Follow the below instractions step by step to install the project locally :-
 	* Clone the repository using : https://github.com/I-m-Sabbir/SimpleStackOverflow.git
