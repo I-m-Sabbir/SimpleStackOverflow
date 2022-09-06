@@ -1,5 +1,6 @@
 # SimpleStackOverflow
 #About The Poject
+=============
 This is a simple project build following StackOverflow. There are some features in this project, implemented least like StackOverflow.
 Users need to register before using any feature like posting questions or answering questions or voting questions or answers.
 Below are the features of the project:
