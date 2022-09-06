@@ -23,7 +23,7 @@ namespace SimpleStackOverflow.Web.Controllers
             model.PageNumber = pn == 0 ? 1 : pn;
             var data = await model.PostListAsync();
             model.Posts = data.Item3;
-            model.Pagination = PagingModel.SetPaging(model.PageNumber, 2, data.totalDisplay,
+            model.Pagination = PagingModel.SetPaging(model.PageNumber, 5, data.totalDisplay,
                 "activeLink", Url.Action("Index", "Home", model), "disableLink");
             return View(model);
         }

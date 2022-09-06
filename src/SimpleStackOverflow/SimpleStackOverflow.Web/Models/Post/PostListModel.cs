@@ -32,7 +32,7 @@ namespace SimpleStackOverflow.Web.Models.Post
 
         public async Task<(int total, int totalDisplay, List<PostBO>)> PostListAsync()
         {
-            var data = await _postService.GetAllPostsAsync(PageNumber, 2);
+            var data = await _postService.GetAllPostsAsync(PageNumber, 5);
             return (data.total, data.totalDisplay, data.Item3);
         }
     }
