@@ -3,16 +3,16 @@
 This is a simple project build following StackOverflow. There are some features in this project, implemented least like StackOverflow.
 Users need to register before using any feature like posting questions or answering questions or voting questions or answers.
 Below are the features of the project:
-	1. User registration
-	2. User login
-	3. Asking questions
-	4. Answering questions
-	5. Vote any questions or answers
-	6. Remove vote from those
-	7. Questioner can accept answers
-	8. Questioner can modify or delete his/her questions
-	9. Answers can be modified or deleted by the owner
-	10. Guest users can see the questions and answers but can't do any actions
+1. User registration
+2. User login
+3. Asking questions
+4. Answering questions
+5. Vote any questions or answers
+6. Remove vote from those
+7. Questioner can accept answers
+8. Questioner can modify or delete his/her questions
+9. Answers can be modified or deleted by the owner
+10.Guest users can see the questions and answers but can't do any actions
 
 ## Build Using
 	> Asp.NET Core 6
