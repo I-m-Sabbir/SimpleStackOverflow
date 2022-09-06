@@ -53,6 +53,11 @@ namespace SimpleStackOverflow.Web.Models.Post
             await _postService.UpdateAsync(model);
         }
 
+        public async Task DeletePostAsync(int id)
+        {
+            await _postService.DeletePostAsync(id);
+        }
+
         private PostBO Map()
         {
             return new PostBO

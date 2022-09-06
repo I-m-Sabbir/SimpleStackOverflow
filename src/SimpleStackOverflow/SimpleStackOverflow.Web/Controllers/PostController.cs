@@ -112,5 +112,32 @@ namespace SimpleStackOverflow.Web.Controllers
                 return View(model);
             }
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = _scope.Resolve<PostUpdateModel>();
+
+            try
+            {
+                await model.DeletePostAsync(id);
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Delete Operation Succeed.",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Delete Operation Failed.",
+                    Type = ResponseTypes.Danger
+                });
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

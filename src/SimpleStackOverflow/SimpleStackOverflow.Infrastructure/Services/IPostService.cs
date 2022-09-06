@@ -9,7 +9,7 @@ namespace SimpleStackOverflow.Infrastructure.Services
         Task<(int total, int totalDisplay, List<Post>)> GetAllPostsAsync(int pageIndex,
             int pageSize);
         Task CreatePostAsync(Post post);
-        //Task DeletePostAsync(int id);
+        Task DeletePostAsync(int id);
         Task<Post> GetPostAsync(int id);
         Task<Post> GetPostWithIncludeAsync(int id);
         Task UpdateAsync(Post post);

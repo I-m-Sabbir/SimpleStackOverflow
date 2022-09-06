@@ -99,5 +99,19 @@ namespace SimpleStackOverflow.Infrastructure.Services
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task DeletePostAsync(int id)
+        {
+            try
+            {
+                await _unitofWork.Comments.RemoveAsync(x => x.PostId == id);
+                await _unitofWork.Posts.RemoveAsync(id);
+                await _unitofWork.SaveAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
