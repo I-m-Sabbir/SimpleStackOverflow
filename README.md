@@ -25,7 +25,7 @@ Below are the features of the project:
 Follow the below instractions step by step to install the project locally :-
 * Clone the repository using : https://github.com/I-m-Sabbir/SimpleStackOverflow.git
 * Change ConnectionString in appsettings.json file according to MSSQL Server
-* Run this line of command in "Package Manager Console" to update the database :  
+* Run this line of command in **"Package Manager Console"** to update the database :  
 `dotnet ef database update --project SimpleStackOverflow.Web`
 * Now the project is ready to run
 
