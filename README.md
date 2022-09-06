@@ -16,6 +16,7 @@ Below are the features of the project:
 	10. Guest users can see the questions and answers but can't do any actions
 
 #Build Using
+==========
 	> Asp.NET Core 6
 	> MSSQL Server 2019
 	> C# 10
@@ -23,6 +24,7 @@ Below are the features of the project:
 	> Visual Studio 2022
 
 #Installation
+==========
 Follow the below instractions step by step to install the project locally :-
 	* Clone the repository using : https://github.com/I-m-Sabbir/SimpleStackOverflow.git
 	* Change ConnectionString in appsettings.json file according to MSSQL Server
